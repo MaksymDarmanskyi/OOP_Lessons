@@ -1,0 +1,51 @@
+using System.Text.RegularExpressions;
+using System;
+namespace LabOne
+{
+
+    public class Program 
+
+    {
+        static void Main()
+        {
+            Book Potop = new Book ("Сенкевіч ", "Потоп ", 1978 , "Х"); // Тут задаємо з клавіатури ті дані які були описані в методичці
+            Book Mehanika = new Book ("Ландау  ", "Механіка  ", 1989 , "У");
+            Book Sumchasty = new Book ("Дойль  ", "Сумчасті  ", 1990 , "Д"); 
+            Book BookOne = new Book ();
+            
+            Potop.Print(); // Ввиводимо дані
+            Console.WriteLine(); // Це створює проміжок між ввиводом даних
+            Mehanika.Print();
+            Console.WriteLine();
+            Sumchasty.Print();
+            Console.WriteLine();
+        }
+    }
+
+    public class Book 
+
+    {
+	    public string authorBook { get; set; } = ""; // Тут ми отримуємо дані та класифікуємо
+
+	    public string name { get; set; } = "";
+
+	    public int year { get; set; } = 0;
+
+    	public string group { get; set; } = "";
+
+    	public Book() {}
+
+    	public Book(string authorBook, string name, int year, string group)
+    	
+    	{
+		    this.authorBook = authorBook; // за допомогою this ми зсиляємось на дані які описали в public Book круглих дужках
+		    this.name = name;
+		    this.year = year; 
+		    this.group = group;
+	    }
+            
+            public void Print()=> Console.WriteLine($"Автор книги = {authorBook}\nНазва = {name}\nРік випуску = {year}\nГрупа = {group}\n");
+            // Верхій рядок відповідає за роботу Print
+    }
+
+};
