@@ -1,0 +1,81 @@
+using System;
+using System.Linq;
+
+public static class ArrayExtensions
+{
+    public static void PrintEvenOddElements(this int[] array)
+    {
+        // Виводимо елементи з парними індексами
+        for (int i = 0; i < array.Length; i += 2)
+        {
+            Console.WriteLine($"Парний індекс {i}: {array[i]}");
+        }
+
+        // Виводимо елементи з непарними індексами
+        for (int i = 1; i < array.Length; i += 2)
+        {
+            Console.WriteLine($"Непарний індекс {i}: {array[i]}");
+        }
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        int[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+        numbers.PrintEvenOddElements();
+        Book.Prints();
+        Book BookOne = new Book("Війна і мир", "Лев Толстой", 1869);
+        Book BookTwo = new Book("Майстер і Маргарита", "Михайло Булгаков", 1966);
+        Book BookThree = new Book("Процес", "Франц Кафка", 1925);
+        Book BookFour = new Book("1984", "Джордж Оруелл", 1949);
+        Book BookFive = new Book("Гаррі Поттер і філософський камінь", "Джоан Роулінг", 1997);
+        Book BookSix = new Book("Крим і покарання", "Федор Достоєвський", 1866);
+        Book BookSeven = new Book("Таємниця роду Басаргінів", "Андрій Курков", 2002);
+        Book BookEight = new Book("Повернення Шерлока Холмса", "Артур Конан Дойль", 1905);
+        Book BookNine = new Book("Третій тарас", "Тарас Прохасько", 2019);
+        Book BookTen = new Book("Сонячна буря", "Станіслав Лем", 1962);
+        List <Book> Books = new List <Book> ();
+        Books.Add(BookOne);
+        Books.Add(BookTwo);
+        Books.Add(BookThree);
+        Books.Add(BookFour);
+        Books.Add(BookFive);
+        Books.Add(BookSix);
+        Books.Add(BookSeven);
+        Books.Add(BookEight);
+        Books.Add(BookNine);
+        Books.Add(BookTen);
+    }
+}
+
+ public class Book 
+
+    {
+        public static int Count { get; private set; } // Статичне поле для підрахунку кількості об'єктів
+	    
+	    public string authorBook { get; set; } = ""; // Тут ми отримуємо дані та класифікуємо
+
+	    public string name { get; set; } = "";
+
+	    public int year { get; set; } = 0;
+
+    	public string group { get; set; } = "";
+
+    	public Book() {}
+
+    	public Book(string authorBook, string name, int year, string group)
+    	
+    	{
+		    this.authorBook = authorBook; // за допомогою this ми зсиляємось на дані які описали в public Book круглих дужках
+		    this.name = name;
+		    this.year = year; 
+		    this.group = group;
+		    Count++;
+	    }
+            
+            public void Print()=> Console.WriteLine($"Автор книги = {authorBook}\nНазва = {name}\nРік випуску = {year}\nГрупа = {group}\n");
+            // Верхій рядок відповідає за роботу Print
+            public static void Prints()=> Console.WriteLine($"Кількість створених об'єктів: {Book.Count}");
+    }
