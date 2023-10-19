@@ -1,23 +1,6 @@
 using System;
 using System.Linq;
-
-public static class ArrayExtensions
-{
-    public static void PrintEvenOddElements(this int[] array)
-    {
-        // Виводимо елементи з парними індексами
-        for (int i = 0; i < array.Length; i += 2)
-        {
-            Console.WriteLine($"Парний індекс {i}: {array[i]}");
-        }
-
-        // Виводимо елементи з непарними індексами
-        for (int i = 1; i < array.Length; i += 2)
-        {
-            Console.WriteLine($"Непарний індекс {i}: {array[i]}");
-        }
-    }
-}
+using System.Collections.Generic;
 
 class Program
 {
@@ -26,16 +9,16 @@ class Program
         int[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
         numbers.PrintEvenOddElements();
         Book.Prints();
-        Book BookOne = new Book("Війна і мир", "Лев Толстой", 1869);
-        Book BookTwo = new Book("Майстер і Маргарита", "Михайло Булгаков", 1966);
-        Book BookThree = new Book("Процес", "Франц Кафка", 1925);
-        Book BookFour = new Book("1984", "Джордж Оруелл", 1949);
-        Book BookFive = new Book("Гаррі Поттер і філософський камінь", "Джоан Роулінг", 1997);
-        Book BookSix = new Book("Крим і покарання", "Федор Достоєвський", 1866);
-        Book BookSeven = new Book("Таємниця роду Басаргінів", "Андрій Курков", 2002);
-        Book BookEight = new Book("Повернення Шерлока Холмса", "Артур Конан Дойль", 1905);
-        Book BookNine = new Book("Третій тарас", "Тарас Прохасько", 2019);
-        Book BookTen = new Book("Сонячна буря", "Станіслав Лем", 1962);
+        Book BookOne = new Book("Війна і мир", "Лев Толстой", 1869, "Х");
+        Book BookTwo = new Book("Майстер і Маргарита", "Михайло Булгаков", 1966,"Y");
+        Book BookThree = new Book("Процес", "Франц Кафка", 1925,"Х");
+        Book BookFour = new Book("1984", "Джордж Оруелл", 1949,"Х");
+        Book BookFive = new Book("Гаррі Поттер і філософський камінь", "Джоан Роулінг", 1997,"Y");
+        Book BookSix = new Book("Крим і покарання", "Федор Достоєвський", 1866,"Y");
+        Book BookSeven = new Book("Таємниця роду Басаргінів", "Андрій Курков", 2002,"Y");
+        Book BookEight = new Book("Повернення Шерлока Холмса", "Артур Конан Дойль", 1905,"Х");
+        Book BookNine = new Book("Третій тарас", "Тарас Прохасько", 2019,"Y");
+        Book BookTen = new Book("Сонячна буря", "Станіслав Лем", 1962,"Х");
         List <Book> Books = new List <Book> ();
         Books.Add(BookOne);
         Books.Add(BookTwo);
@@ -47,6 +30,31 @@ class Program
         Books.Add(BookEight);
         Books.Add(BookNine);
         Books.Add(BookTen);
+        findObject.searchYear(Books, 1962);
+        findObject.checkCountObject(10);
+    }
+}
+
+public static class findObject
+{
+    public static void searchYear(List<Book> book, int years){
+        var Collections = book.Where(item => item.year < years);
+        
+        
+        foreach(var item in Collections)
+        {
+            Console.WriteLine($"Автор книги = {item.authorBook}\nНазва = {item.name}\nРік випуску = {item.year}\nГрупа = {item.group}\n");
+        }
+    }
+    public static void checkCountObject(int Amount)
+    {
+        if(Book.Count >= Amount)
+        {
+            Console.WriteLine($"Кількість об'єктів більше ніж задане число: {Amount}");
+        } else {
+            Console.WriteLine($"Кількість об'єктів менше ніж задане число: {Amount}");
+        }
+        
     }
 }
 
@@ -79,3 +87,21 @@ class Program
             // Верхій рядок відповідає за роботу Print
             public static void Prints()=> Console.WriteLine($"Кількість створених об'єктів: {Book.Count}");
     }
+    public static class ArrayExtensions
+
+{
+    public static void PrintEvenOddElements(this int[] array)
+    {
+        // Виводимо елементи з парними індексами
+        for (int i = 0; i < array.Length; i += 2)
+        {
+            Console.WriteLine($"Парний індекс {i}: {array[i]}");
+        }
+
+        // Виводимо елементи з непарними індексами
+        for (int i = 1; i < array.Length; i += 2)
+        {
+            Console.WriteLine($"Непарний індекс {i}: {array[i]}");
+        }
+    }
+}
