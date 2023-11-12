@@ -1,0 +1,71 @@
+using System;
+
+class Rectangle
+{
+    protected int x1, y1, x2, y2;
+
+    public Rectangle(int x1, int y1, int x2, int y2)
+    {
+        this.x1 = x1;
+        this.y1 = y1;
+        this.x2 = x2;
+        this.y2 = y2;
+    }
+
+    public double CalculateArea()
+    {
+        return Math.Abs((x2 - x1) * (y2 - y1));
+    }
+
+    public void Draw()
+    {
+        // Реалізація відображення прямокутника
+        Console.WriteLine("Drawing a Rectangle:");
+        Console.WriteLine($"Coordinates: ({x1}, {y1}) - ({x2}, {y2})");
+    }
+}
+
+class Envelope : Rectangle
+{
+    private string lineColor;
+
+    public Envelope(int x1, int y1, int x2, int y2, string lineColor)
+        : base(x1, y1, x2, y2)
+    {
+        this.lineColor = lineColor;
+    }
+
+    public double CalculateUpperTriangleArea()
+    {
+        // Розрахунок площі верхнього трикутника
+        double baseLength = Math.Abs(x2 - x1);
+        double height = Math.Abs(y2 - y1) / 2.0;
+        return 0.5 * baseLength * height;
+    }
+
+    public new void Draw()
+    {
+        // Реалізація відображення конверта
+        Console.WriteLine("Drawing an Envelope:");
+        Console.WriteLine($"Coordinates: ({x1}, {y1}) - ({x2}, {y2})");
+        Console.WriteLine($"Line Color: {lineColor}");
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        Rectangle rectangle = new Rectangle(10, 10, 30, 20);
+        Envelope envelope = new Envelope(20, 15, 40, 30, "Red");
+
+        // Робота з прямокутником
+        Console.WriteLine("Rectangle Area: " + rectangle.CalculateArea());
+        rectangle.Draw();
+
+        // Робота з конвертом
+        Console.WriteLine("Envelope Area: " + envelope.CalculateArea());
+        Console.WriteLine("Upper Triangle Area: " + envelope.CalculateUpperTriangleArea());
+        envelope.Draw();
+    }
+}
