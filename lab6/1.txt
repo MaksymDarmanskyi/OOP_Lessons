@@ -1,0 +1,142 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+public class CollectionType<T> where T : IComparable<T>
+{
+    private LinkedList<T> collection;
+
+    public CollectionType()
+    {
+        collection = new LinkedList<T>();
+    }
+
+    public void Add(T item)
+    {
+        collection.AddLast(item);
+    }
+
+    public int CountOccurrences(T value)
+    {
+        return collection.Count(item => item.Equals(value));
+    }
+
+    public CollectionType<T> Max()
+    {
+        if (collection.Count == 0)
+        {
+            return null;
+        }
+        var maxItem = collection.Max();
+        CollectionType<T> maxCollection = new CollectionType<T>();
+        maxCollection.Add(maxItem);
+        return maxCollection;
+    }
+
+    public CollectionType<T> Min()
+    {
+        if (collection.Count == 0)
+        {
+            return null;
+        }
+        var minItem = collection.Min();
+        CollectionType<T> minCollection = new CollectionType<T>();
+        minCollection.Add(minItem);
+        return minCollection;
+    }
+
+    public IEnumerable<T> Items => collection;
+
+    // Додайте інші методи та властивості за необхідності.
+}
+
+class Program
+{
+    static void Main()
+    {
+        // Створіть список колекцій CollectionType
+        List<CollectionType<int>> collections = new List<CollectionType<int>>();
+
+        // Додайте елементи до колекцій
+        collections.Add(new CollectionType<int>());
+        collections.Add(new CollectionType<int>());
+        collections.Add(new CollectionType<int>());
+
+        collections[0].Add(5);
+        collections[0].Add(5);
+        collections[1].Add(10);
+        collections[2].Add(15);
+
+        // Знайдіть кількість колекцій, що містять задане значення (наприклад, "5").
+        int searchValue = 5;
+        int count = collections.Count(collection => collection.CountOccurrences(searchValue) > 0);
+
+        Console.WriteLine($"Кількість колекцій, що містять {searchValue}: {count}");
+
+        // Знайдіть максимальну та мінімальну колекції у масиві.
+        var maxCollection = collections.First();
+        var minCollection = collections.First();
+
+        foreach (var collection in collections)
+        {
+            if (collection.Max().Items.FirstOrDefault().CompareTo(maxCollection.Max().Items.FirstOrDefault()) > 0)
+                maxCollection = collection;
+
+            if (collection.Min().Items.FirstOrDefault().CompareTo(minCollection.Min().Items.FirstOrDefault()) < 0)
+                minCollection = collection;
+        }
+
+        Console.WriteLine("Максимальна колекція:");
+        foreach (var item in maxCollection.Items)
+        {
+            Console.WriteLine(item);
+        }
+
+        Console.WriteLine("Мінімальна колекція:");
+        foreach (var item in minCollection.Items)
+        {
+            Console.WriteLine(item);
+        }
+
+        // Запит 1: Вибрати всі унікальні елементи і впорядкувати їх за зростанням.
+        var uniqueItems = collections.SelectMany(collection => collection.Items)
+            .Distinct()
+            .OrderBy(item => item);
+
+        Console.WriteLine("Унікальні елементи, відсортовані за зростанням:");
+        foreach (var item in uniqueItems)
+        {
+            Console.WriteLine(item);
+        }
+
+        // Запит 2: Знайти суму всіх елементів в колекціях.
+        var totalSum = collections.SelectMany(collection => collection.Items).Sum();
+
+        Console.WriteLine($"Загальна сума всіх елементів: {totalSum}");
+
+        // Запит 3: Вибрати елементи, які більше за середнє значення в усіх колекціях.
+        var average = collections.SelectMany(collection => collection.Items).Average();
+        var itemsGreaterThanAverage = collections.SelectMany(collection => collection.Items)
+            .Where(item => item > average);
+
+        Console.WriteLine("Елементи більше за середнє значення:");
+        foreach (var item in itemsGreaterThanAverage)
+        {
+            Console.WriteLine(item);
+        }
+
+        // Запит 4: Знайти максимальну довжину серії однакових елементів в колекціях.
+        var maxSeriesLength = collections.SelectMany(collection => collection.Items)
+            .GroupBy(item => item)
+            .Max(group => group.Count());
+
+        Console.WriteLine($"Максимальна довжина серії однакових елементів: {maxSeriesLength}");
+
+        // Запит 5: Знайти кількість парних чисел в колекціях.
+        var countOfEvenNumbers = collections.SelectMany(collection => collection.Items)
+            .Count(item => item % 2 == 0);
+
+        Console.WriteLine($"Кількість парних чисел: {countOfEvenNumbers}");
+    }
+}

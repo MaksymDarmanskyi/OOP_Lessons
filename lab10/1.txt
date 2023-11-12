@@ -1,0 +1,87 @@
+using System;
+using System.Collections.Generic;
+
+class CharSet
+{
+    private HashSet<char> elements;
+
+    public CharSet()
+    {
+        elements = new HashSet<char>();
+    }
+
+    public CharSet(params char[] chars)
+    {
+        elements = new HashSet<char>(chars);
+    }
+
+    public void Add(char element)
+    {
+        elements.Add(element);
+    }
+
+    public void Remove(char element)
+    {
+        elements.Remove(element);
+    }
+
+    public bool Contains(char element)
+    {
+        return elements.Contains(element);
+    }
+
+    public static bool operator >(CharSet set, char element)
+    {
+        return set.Contains(element);
+    }
+
+    public static bool operator <(CharSet set, char element)
+    {
+        return !set.Contains(element);
+    }
+
+    public static CharSet operator *(CharSet set1, CharSet set2)
+    {
+        CharSet result = new CharSet();
+        foreach (char element in set1.elements)
+        {
+            if (set2.Contains(element))
+            {
+                result.Add(element);
+            }
+        }
+        return result;
+    }
+
+    public static bool operator >(CharSet set1, CharSet set2)
+    {
+        foreach (char element in set1.elements)
+        {
+            if (!set2.Contains(element))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static bool operator <(CharSet set1, CharSet set2)
+    {
+        return set2 > set1;
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        CharSet set1 = new CharSet('a', 'b', 'c');
+        CharSet set2 = new CharSet('b', 'c', 'd', 'e');
+
+        Console.WriteLine("set1 > 'a': " + (set1 > 'a'));  // Перевірка на приналежність
+        Console.WriteLine("set1 < 'a': " + (set1 < 'a'));  // Перевірка на відсутність приналежності
+        Console.WriteLine("set1 * set2: " + (set1 * set2));  // Перетин множин
+        Console.WriteLine("set1 > set2: " + (set1 > set2));  // Перевірка на підмножину
+        Console.WriteLine("set1 < set2: " + (set1 < set2));  // Перевірка на відсутність підмножини
+    }
+}

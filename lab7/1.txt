@@ -1,0 +1,124 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        try
+        {
+            // Створюємо заявку на покупку
+            ZayavkaNaPokupku zayavkaPokupka = new ZayavkaNaPokupku("Іванов Іван Іванович");
+
+            // Виводимо інформацію про заявку
+            Console.WriteLine($"Заявка на покупку: {zayavkaPokupka.PibPokuptsia}");
+            Console.WriteLine($"Вартість замовлення: {zayavkaPokupka.RozrakhuvatyVartistZamovlennia()}");
+
+            // Спробуємо створити заявку на придбання зі стенду з нульовою кількістю автомобілів
+            ZayavkaNaPrydbanniaZiStendu zayavkaPrydbanniaStendu = new ZayavkaNaPrydbanniaZiStendu();
+            zayavkaPrydbanniaStendu.RozrakhuvatyVartistZamovlennia();
+        }
+        catch (KilkistAvtoException ex)
+        {
+            Console.WriteLine($"Помилка: {ex.Message}");
+        }
+        catch (PIBException ex)
+        {
+            Console.WriteLine($"Помилка: {ex.Message}");
+        }
+    }
+}
+
+// Код класів та інтерфейсів
+
+class Avtosalon
+{
+    public string Nazva { get; set; }
+}
+
+class Avtomobil
+{
+    public string Marka { get; set; }
+    public int MaxKilkistPasazhyriv { get; set; }
+    public double Vartist { get; set; }
+    public int KilKistNaSkladi { get; set; }
+    public bool Nayavnist { get; set; }
+}
+
+class ZayavkaNaPokupku
+{
+    private string pibPokuptsia;
+    public string PibPokuptsia
+    {
+        get { return pibPokuptsia; }
+        set
+        {
+            if (string.IsNullOrEmpty(value))
+                throw new PIBException("Неможливо створити заявку – не вказано ПІБ покупця.");
+            pibPokuptsia = value;
+        }
+    }
+
+    public string NomerTelefonu { get; set; }
+    public Avtomobil[] Avtomobili { get; set; }
+
+    public double RozrakhuvatyVartistZamovlennia()
+    {
+        // Логіка розрахунку вартості замовлення
+        if (Avtomobili == null || Avtomobili.Length == 0)
+            throw new KilkistAvtoException("Кількість автомобілів в заявці дорівнює нулю.");
+        double vartistZamovlennia = 0;
+        foreach (var avto in Avtomobili)
+        {
+            vartistZamovlennia += avto.Vartist;
+        }
+        return vartistZamovlennia;
+    }
+
+    public ZayavkaNaPokupku(string pib)
+    {
+        PibPokuptsia = pib;
+    }
+}
+
+class ZayavkaNaPrydbanniaZiStendu
+{
+    public Avtomobil[] Avtomobili { get; set; }
+
+    public double RozrakhuvatyVartistZamovlennia()
+    {
+        // Логіка розрахунку вартості замовлення
+        if (Avtomobili == null || Avtomobili.Length == 0)
+            throw new KilkistAvtoException("Кількість автомобілів в заявці дорівнює нулю.");
+        double vartistZamovlennia = 0;
+        foreach (var avto in Avtomobili)
+        {
+            vartistZamovlennia += avto.Vartist;
+        }
+        return vartistZamovlennia;
+    }
+}
+
+class ZayavkaNaVidkladenyPostavku
+{
+    public double VidstotokZnizhki { get; set; }
+
+    public double RozrakhuvatyVartistZamovlennia()
+    {
+        // Логіка розрахунку вартості замовлення
+        return 0; // Додайте логіку розрахунку з урахуванням відсотка знижки
+    }
+}
+
+class KilkistAvtoException : Exception
+{
+    public KilkistAvtoException(string message) : base(message)
+    {
+    }
+}
+
+class PIBException : Exception
+{
+    public PIBException(string message) : base(message)
+    {
+    }
+}

@@ -1,0 +1,45 @@
+using System;
+
+// Делегат для функції, яку будемо знаходити
+delegate double EquationFunction(double x);
+
+class NewtonRaphson
+{
+    // Метод для знаходження кореня рівняння за допомогою методу дотичних
+    public static double FindRoot(EquationFunction func, EquationFunction derivative, double initialGuess, double epsilon = 1e-6, int maxIterations = 100)
+    {
+        double x = initialGuess;
+
+        for (int i = 0; i < maxIterations; i++)
+        {
+            double fx = func(x);
+            double dfx = derivative(x);
+
+            if (Math.Abs(fx) < epsilon)
+                return x; // Знашли корінь
+
+            if (Math.Abs(dfx) < epsilon)
+                throw new InvalidOperationException("Дотична стає горизонтальною. Неможливо продовжити обчислення.");
+
+            x = x - fx / dfx; // Оновлення за методом дотичних
+        }
+
+        throw new InvalidOperationException("Досягнута максимальна кількість ітерацій без знаходження кореня.");
+    }
+}
+
+class Program
+{
+    // Приклад використання
+    static void Main()
+    {
+        // Задаємо рівняння та його похідну
+        EquationFunction equation = x => x * x - 4; // x^2 - 4 = 0
+        EquationFunction derivative = x => 2 * x;  // Похідна: 2x
+
+        // Викликаємо метод для знаходження кореня
+        double root = NewtonRaphson.FindRoot(equation, derivative, 2);
+
+        Console.WriteLine($"Знайдений корінь рівняння: {root}");
+    }
+}

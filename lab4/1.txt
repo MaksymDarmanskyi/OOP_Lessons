@@ -1,0 +1,90 @@
+using System;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main()
+    {
+        StarSystem starSystem = new StarSystem("Our Sun");
+        
+        Console.WriteLine("Star Name: " + starSystem.GetStarName());
+        
+        Planet earth = new Planet("Earth");
+        starSystem.AddPlanet(earth);
+        
+        Console.WriteLine("Number of Planets in the Star System: " + starSystem.GetPlanetCount());
+
+        starSystem.AddPlanet(new Planet("Mars"));
+        starSystem.AddPlanet(new Planet("Venus"));
+
+        Console.WriteLine("Number of Planets in the Star System: " + starSystem.GetPlanetCount());
+
+        Console.WriteLine("Planets in the Star System:");
+        foreach (var planet in starSystem.GetPlanets())
+        {
+            Console.WriteLine(planet.GetName());
+        }
+    }
+}
+
+class StarSystem
+{
+    private Star star;
+    private List<Planet> planets;
+
+    public StarSystem(string starName)
+    {
+        star = new Star(starName);
+        planets = new List<Planet>();
+    }
+
+    public void AddPlanet(Planet planet)
+    {
+        planets.Add(planet);
+    }
+
+    public int GetPlanetCount()
+    {
+        return planets.Count;
+    }
+
+    public string GetStarName()
+    {
+        return star.GetName();
+    }
+
+    public List<Planet> GetPlanets()
+    {
+        return planets;
+    }
+}
+
+class Star
+{
+    private string name;
+
+    public Star(string name)
+    {
+        this.name = name;
+    }
+
+    public string GetName()
+    {
+        return name;
+    }
+}
+
+class Planet
+{
+    private string name;
+
+    public Planet(string name)
+    {
+        this.name = name;
+    }
+
+    public string GetName()
+    {
+        return name;
+    }
+}

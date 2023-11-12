@@ -1,0 +1,73 @@
+using System;
+
+public interface IInstrument
+{
+    string KEY { get; }
+    void Play();
+}
+
+public class Guitar : IInstrument
+{
+    public string KEY { get; } = "До мажор";
+    public int NumberOfStrings { get; }
+
+    public Guitar(int numberOfStrings)
+    {
+        NumberOfStrings = numberOfStrings;
+    }
+
+    public void Play()
+    {
+        Console.WriteLine($"Грає гітара з {NumberOfStrings} струнами");
+    }
+}
+
+public class Drum : IInstrument
+{
+    public string KEY { get; } = "До мажор";
+    public int Size { get; }
+
+    public Drum(int size)
+    {
+        Size = size;
+    }
+
+    public void Play()
+    {
+        Console.WriteLine($"Грає барабан розміром {Size}");
+    }
+}
+
+public class Trumpet : IInstrument
+{
+    public string KEY { get; } = "До мажор";
+    public double Diameter { get; }
+
+    public Trumpet(double diameter)
+    {
+        Diameter = diameter;
+    }
+
+    public void Play()
+    {
+        Console.WriteLine($"Грає труба з діаметром {Diameter}");
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        IInstrument[] instruments = new IInstrument[]
+        {
+            new Guitar(6),
+            new Drum(24),
+            new Trumpet(0.5)
+        };
+
+        foreach (var instrument in instruments)
+        {
+            instrument.Play();
+        }
+    }
+}

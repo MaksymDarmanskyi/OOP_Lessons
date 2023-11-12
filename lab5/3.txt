@@ -1,0 +1,128 @@
+using System;
+
+// Інтерфейси для одягу
+interface IClothing
+{
+    ClothingSize Size { get; }
+    double Price { get; }
+    string Color { get; }
+}
+
+interface IManClothing : IClothing
+{
+    void DressMan();
+}
+
+interface IWomanClothing : IClothing
+{
+    void DressWoman();
+}
+
+enum ClothingSize { XXS, XS, S, M, L }
+
+// Базовий клас Одяг
+abstract class Clothing : IClothing
+{
+    public ClothingSize Size { get; }
+    public double Price { get; }
+    public string Color { get; }
+
+    public Clothing(ClothingSize size, double price, string color)
+    {
+        Size = size;
+        Price = price;
+        Color = color;
+    }
+}
+
+class TShirt : Clothing, IManClothing, IWomanClothing
+{
+    public TShirt(ClothingSize size, double price, string color) : base(size, price, color) { }
+
+    public void DressMan()
+    {
+        Console.WriteLine($"Dressing a man in a {Size} T-shirt of color {Color}.");
+    }
+
+    public void DressWoman()
+    {
+        Console.WriteLine($"Dressing a woman in a {Size} T-shirt of color {Color}.");
+    }
+}
+
+class Pants : Clothing, IManClothing, IWomanClothing
+{
+    public Pants(ClothingSize size, double price, string color) : base(size, price, color) { }
+
+    public void DressMan()
+    {
+        Console.WriteLine($"Dressing a man in {Size} pants of color {Color}.");
+    }
+
+    public void DressWoman()
+    {
+        Console.WriteLine($"Dressing a woman in {Size} pants of color {Color}.");
+    }
+}
+
+class Skirt : Clothing, IWomanClothing
+{
+    public Skirt(ClothingSize size, double price, string color) : base(size, price, color) { }
+
+    public void DressWoman()
+    {
+        Console.WriteLine($"Dressing a woman in a {Size} skirt of color {Color}.");
+    }
+}
+
+class Tie : Clothing, IManClothing
+{
+    public Tie(ClothingSize size, double price, string color) : base(size, price, color) { }
+
+    public void DressMan()
+    {
+        Console.WriteLine($"Dressing a man with a {Size} tie of color {Color}.");
+    }
+}
+
+class Atelier
+{
+    public void DressMan(IManClothing[] clothes)
+    {
+        Console.WriteLine("Dressing a man:");
+        foreach (var item in clothes)
+        {
+            item.DressMan();
+        }
+    }
+
+    public void DressWoman(IWomanClothing[] clothes)
+    {
+        Console.WriteLine("Dressing a woman:");
+        foreach (var item in clothes)
+        {
+            item.DressWoman();
+        }
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        var tShirt1 = new TShirt(ClothingSize.M, 25.0, "Red");
+        var tShirt2 = new TShirt(ClothingSize.S, 20.0, "Blue");
+        var pants1 = new Pants(ClothingSize.L, 45.0, "Black");
+        var pants2 = new Pants(ClothingSize.XS, 30.0, "Gray");
+        var skirt1 = new Skirt(ClothingSize.S, 35.0, "Yellow");
+        var tie1 = new Tie(ClothingSize.L, 15.0, "Striped");
+        var tie2 = new Tie(ClothingSize.XS, 10.0, "Solid");
+
+        IManClothing[] manClothes = { tShirt1, pants1, tie1, tie2 };
+        IWomanClothing[] womanClothes = { tShirt2, pants2, skirt1 };
+
+        Atelier atelier = new Atelier();
+        atelier.DressMan(manClothes);
+        atelier.DressWoman(womanClothes);
+    }
+}

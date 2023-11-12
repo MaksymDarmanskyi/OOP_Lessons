@@ -1,0 +1,52 @@
+using System;
+using System.Linq;
+
+class Program
+{
+    static void Main()
+    {
+        Console.WriteLine("Введіть три різні дати у форматі dd.MM.yyyy, розділені комою:");
+        string[] dateStrings = Console.ReadLine().Split(',');
+
+        DateTime[] dates = new DateTime[dateStrings.Length];
+
+        for (int i = 0; i < dateStrings.Length; i++)
+        {
+            if (DateTime.TryParse(dateStrings[i], out dates[i]))
+            {
+                Console.WriteLine($"Введена дата {i + 1}: {dates[i]:dd.MM.yyyy}");
+            }
+            else
+            {
+                Console.WriteLine($"Некоректний формат дати {i + 1}.");
+            }
+        }
+
+        FindEarliestYear(dates);
+        FindSpringDates(dates);
+        FindLatestDate(dates);
+    }
+
+    static void FindEarliestYear(DateTime[] dates)
+    {
+        int earliestYear = dates.Min(date => date.Year);
+        Console.WriteLine($"Рік з найменшим номером: {earliestYear}");
+    }
+
+    static void FindSpringDates(DateTime[] dates)
+    {
+        var springDates = dates.Where(date => date.Month >= 3 && date.Month <= 5);
+        Console.WriteLine("Весняні дати:");
+
+        foreach (var springDate in springDates)
+        {
+            Console.WriteLine($"{springDate:dd.MM.yyyy}");
+        }
+    }
+
+    static void FindLatestDate(DateTime[] dates)
+    {
+        DateTime latestDate = dates.Max();
+        Console.WriteLine($"Сама пізня дата: {latestDate:dd.MM.yyyy}");
+    }
+}

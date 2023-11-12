@@ -1,0 +1,33 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        Console.WriteLine("Введіть дату у форматі dd.MM.yyyy:");
+        DateTime inputDate;
+        if (DateTime.TryParse(Console.ReadLine(), out inputDate))
+        {
+            CalculateDaysUntilDate(inputDate);
+        }
+        else
+        {
+            Console.WriteLine("Некоректний формат дати.");
+        }
+    }
+
+    static void CalculateDaysUntilDate(DateTime targetDate)
+    {
+        DateTime currentDate = DateTime.Now;
+
+        if (targetDate > currentDate)
+        {
+            int daysRemaining = (int)(targetDate - currentDate).TotalDays;
+            Console.WriteLine($"Днів до вказаної дати: {daysRemaining}");
+        }
+        else
+        {
+            Console.WriteLine("Вказана дата вже минула.");
+        }
+    }
+}

@@ -1,0 +1,115 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        Vector2D[] twoDimensionalVectors = new Vector2D[3];
+        Vector3D[] threeDimensionalVectors = new Vector3D[4];
+
+        // Заповнення векторів
+        twoDimensionalVectors[0] = new Vector2D(2, 3);
+        twoDimensionalVectors[1] = new Vector2D(4, 6);
+        twoDimensionalVectors[2] = new Vector2D(1, 2);
+
+        threeDimensionalVectors[0] = new Vector3D(1, 2, 3);
+        threeDimensionalVectors[1] = new Vector3D(3, 4, 5);
+        threeDimensionalVectors[2] = new Vector3D(2, 4, 6);
+        threeDimensionalVectors[3] = new Vector3D(1, 1, 1);
+
+        // Знайдемо суму довжин паралельних до першого по порядку двовимірних векторів
+        double sumOfParallelLengths = 0;
+        for (int i = 1; i < twoDimensionalVectors.Length; i++)
+        {
+            if (twoDimensionalVectors[0].IsParallelTo(twoDimensionalVectors[i]))
+            {
+                sumOfParallelLengths += twoDimensionalVectors[i].Length();
+            }
+        }
+
+        // Знайдемо суму довжин перпендикулярних до першого по порядку тривимірних векторів
+        double sumOfPerpendicularLengths = 0;
+        for (int i = 1; i < threeDimensionalVectors.Length; i++)
+        {
+            if (threeDimensionalVectors[0].IsPerpendicularTo(threeDimensionalVectors[i]))
+            {
+                sumOfPerpendicularLengths += threeDimensionalVectors[i].Length();
+            }
+        }
+
+        Console.WriteLine("Sum of lengths of parallel vectors: " + sumOfParallelLengths);
+        Console.WriteLine("Sum of lengths of perpendicular vectors: " + sumOfPerpendicularLengths);
+    }
+}
+
+class TVector
+{
+    protected double[] components;
+
+    public TVector(double[] components)
+    {
+        this.components = components;
+    }
+
+    public double Length()
+    {
+        double sumOfSquares = 0;
+        foreach (double component in components)
+        {
+            sumOfSquares += component * component;
+        }
+        return Math.Sqrt(sumOfSquares);
+    }
+
+    public bool IsParallelTo(TVector otherVector)
+    {
+        // Для простоти припускаємо, що вектори паралельні, якщо вони мають однаковий напрямок
+        if (components.Length != otherVector.components.Length)
+        {
+            return false;
+        }
+
+        for (int i = 0; i < components.Length; i++)
+        {
+            if (components[i] == 0 || otherVector.components[i] == 0)
+            {
+                // Вектори не можуть бути паралельними, якщо один з компонентів є нульовим
+                return false;
+            }
+
+            if (components[i] / otherVector.components[i] != components[0] / otherVector.components[0])
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public bool IsPerpendicularTo(TVector otherVector)
+    {
+        // Для простоти припускаємо, що вектори перпендикулярні, якщо їх скалярний добуток дорівнює 0
+        if (components.Length != otherVector.components.Length)
+        {
+            return false;
+        }
+
+        double dotProduct = 0;
+        for (int i = 0; i < components.Length; i++)
+        {
+            dotProduct += components[i] * otherVector.components[i];
+        }
+
+        return dotProduct == 0;
+    }
+}
+
+class Vector2D : TVector
+{
+    public Vector2D(double x, double y) : base(new double[] { x, y }) { }
+}
+
+class Vector3D : TVector
+{
+    public Vector3D(double x, double y, double z) : base(new double[] { x, y, z }) { }
+}

@@ -1,0 +1,41 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        Console.WriteLine("Введіть рядок:");
+        string input = Console.ReadLine();
+
+        Console.WriteLine("Введіть позицію, з якої потрібно почати заміну:");
+        int position;
+        if (int.TryParse(Console.ReadLine(), out position) && position >= 0 && position < input.Length)
+        {
+            string result = SwapOnesAndZeros(input, position);
+            Console.WriteLine("Результат заміни: " + result);
+        }
+        else
+        {
+            Console.WriteLine("Некоректна позиція.");
+        }
+    }
+
+    static string SwapOnesAndZeros(string str, int startPosition)
+    {
+        char[] charArray = str.ToCharArray();
+
+        for (int i = startPosition; i < charArray.Length; i++)
+        {
+            if (charArray[i] == '0')
+            {
+                charArray[i] = '1';
+            }
+            else if (charArray[i] == '1')
+            {
+                charArray[i] = '0';
+            }
+        }
+
+        return new string(charArray);
+    }
+}
