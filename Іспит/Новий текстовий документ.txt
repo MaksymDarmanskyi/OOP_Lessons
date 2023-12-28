@@ -1,0 +1,96 @@
+using System;
+
+// Інтерфейс для лампи
+public interface ILamp
+{
+    string Type { get; set; }
+    string Manufacturer { get; set; }
+    int PowerInLumens { get; set; }
+    string LightType { get; set; }
+    int NumberOfElements { get; set; }
+
+    void PrintInfo();
+    void ChangePower(int newPower);
+}
+
+// Інтерфейс для камери
+public interface ICamera
+{
+    string Type { get; set; }
+    string Manufacturer { get; set; }
+    int OpticalLensSensitivity { get; set; }
+
+    void PrintInfo();
+    void ChangeSensitivity(int newSensitivity);
+}
+
+// Клас для фотостудії
+public class PhotoStudio : ILamp, ICamera
+{
+    // Властивості для лампи
+    public string Type { get; set; }
+    public string Manufacturer { get; set; }
+    public int PowerInLumens { get; set; }
+    public string LightType { get; set; }
+    public int NumberOfElements { get; set; }
+
+    // Властивості для камери
+    public int OpticalLensSensitivity { get; set; }
+
+    // Метод для виведення інформації про лампу
+    public void PrintInfo()
+    {
+        Console.WriteLine($"Lamp Info: Type - {Type}, Manufacturer - {Manufacturer}, Power - {PowerInLumens} lumens, Light Type - {LightType}, Number of Elements - {NumberOfElements}");
+    }
+
+    // Метод для зміни потужності лампи
+    public void ChangePower(int newPower)
+    {
+        PowerInLumens = newPower;
+        Console.WriteLine($"Power has been changed to {newPower} lumens.");
+    }
+
+    // Метод для виведення інформації про камеру
+    public void PrintInfo()
+    {
+        Console.WriteLine($"Camera Info: Type - {Type}, Manufacturer - {Manufacturer}, Sensitivity - {OpticalLensSensitivity}");
+    }
+
+    // Метод для зміни світлочутливості камери
+    public void ChangeSensitivity(int newSensitivity)
+    {
+        OpticalLensSensitivity = newSensitivity;
+        Console.WriteLine($"Sensitivity has been changed to {newSensitivity}.");
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        // Створення екземплярів класу PhotoStudio
+        PhotoStudio studio1 = new PhotoStudio();
+        studio1.Type = "Studio Lamp";
+        studio1.Manufacturer = "ABC Lighting";
+        studio1.PowerInLumens = 1000;
+        studio1.LightType = "LED";
+        studio1.NumberOfElements = 5;
+        studio1.OpticalLensSensitivity = 200;
+
+        PhotoStudio studio2 = new PhotoStudio();
+        studio2.Type = "Camera Flash";
+        studio2.Manufacturer = "XYZ Cameras";
+        studio2.PowerInLumens = 800;
+        studio2.LightType = "Xenon";
+        studio2.NumberOfElements = 3;
+        studio2.OpticalLensSensitivity = 300;
+
+        // Виведення інформації про фотостудію
+        studio1.PrintInfo();
+        studio2.PrintInfo();
+
+        // Зміна значення світлочутливості та виведення на екран
+        studio2.ChangeSensitivity(400);
+        studio2.PrintInfo();
+    }
+}
